@@ -3,6 +3,9 @@ const { port } = require('./config.json');
 const bodyParser = require('body-parser');
 const Caver = require('caver-js')
 
+require('./bot');
+
+
 const CONTRACT_ADDR = '0x3990df2B9BecD6D49Aedf8bEc090f19cD5405a85'
 let contract = null; 
 

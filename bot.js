@@ -1,7 +1,6 @@
 const { token } = require('./config.json');
 const { Client, Intents } = require('discord.js');
-const e = require('express');
-
+const Verify = require('./bot-verify'); 
 const client = new Client({
     intents: [
         Intents.FLAGS.GUILDS,
@@ -22,11 +21,30 @@ client.once('ready', async () => {
     const role = guild.roles.cache.get(ROLE_VIP_ID);
     const member = await guild.members.fetch(MEMBER_ID);
     console.log('member', member);
-    member.roles.add(role);
+    // member.roles.add(role);
     // member.roles.remove(role);
     channel.send('bot start');
+
+    const ch_verify = guild.channels.cache.get(Verify.channel_id);
+    const old_msg = await ch_verify.messages.fetch();
+    ch_verify.bulkDelete(old_msg);
+
+    Verify.ready(client);
     
 });
+
+client.on('messageReactionAdd', async (reaction, user) => {
+    if(user.bot) return;
+    if(reaction.message.partial) await reaction.message.fetch();
+    if(reaction.partial) await reaction.fetch();
+    if(!reaction.message.guild) return;
+
+    if(reaction.message.channelId == Verify.channel_id){
+        Verify.reaction(reaction, user);
+    } else {
+        console.error('messageReactionAdd no ch');
+    }
+})
 
 client.on('messageCreate', async (msg) => {
     if(msg.author.bot) return;
