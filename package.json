@@ -18,7 +18,9 @@
   "homepage": "https://github.com/okhan1998/discord-bot#readme",
   "dependencies": {
     "caver-js": "^1.8.1",
+    "discord.js": "^13.6.0",
     "express": "^4.18.1",
+    "n": "^8.2.0",
     "nodemon": "^2.0.16"
   }
 }
